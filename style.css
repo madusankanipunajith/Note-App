@@ -115,6 +115,9 @@ header .search input{
     background-color: cornflowerblue;
     border-collapse: collapse;
 } 
+.container .table .note-body{
+    display: none;
+}
 .container .table table, .container .table table td{
     border: 2px #fff solid;
     padding: 5px;
@@ -164,4 +167,4 @@ header .search input{
         margin-left: 0px;
         margin-right: 0px;
     }
-}
+} 
