@@ -5,9 +5,13 @@ var title = document.getElementById('n-title');
 var body = document.getElementById('n-body');
 var tableDiv = document.getElementById('tbl-div');
 var search = document.getElementById('srch');
+var reset = document.getElementById('reset');
 
 var noteCount = 0;
 var newNote = '';
+var isUpdate = false;
+var record = '';
+var note = '';
 
 // Events
 window.onload = updateTable;
@@ -19,11 +23,25 @@ search.addEventListener('keyup', searchNotes);
 // For Remove
 items.addEventListener('click', removeNote);
 
+// For View and Update
+items.addEventListener('click', viewUpdate);
+
+// For Reset
+reset.addEventListener('click', resetAll);
+
 // Functions
 function updateTable() {
     if (noteCount > 0) {
         tableDiv.style.display = ''
-        items.appendChild(newNote);
+        if (isUpdate) {
+            note.firstChild.textContent = title.value;
+            note.lastChild.textContent = body.value;
+            isUpdate = false;
+            noteCount--;
+
+        }else{
+            items.appendChild(newNote);
+        }
     }else{
         tableDiv.style.display = 'none';
     }
@@ -73,6 +91,8 @@ function addNote(e) {
         // Add or Update the note of the table
         updateTable();
         
+        // Reset All
+        resetAll();
         console.log(tr);
     }
 }
@@ -99,6 +119,30 @@ function removeNote(e) {
             // delete the note
             var tr = e.target.parentElement.parentElement;
             items.removeChild(tr);
+            noteCount--;
+            if (noteCount === 0) {
+                updateTable();
+            }
         }
     }
+}
+
+function viewUpdate(e) {
+    if (e.target.id === 'vw') {
+        // get the element value and update input fields
+        record = e.target.parentElement.parentElement;
+        note = record.firstChild;
+        title.value = note.firstChild.textContent;
+        body.value = note.lastChild.textContent;
+        isUpdate = true;
+
+    }
+}
+
+function resetAll(e) {
+    // Reset the attributes
+    title.value = "";
+    body.value = "";
+    isUpdate = false;
+    newNote = '';
 }
